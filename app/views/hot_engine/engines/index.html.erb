@@ -3,19 +3,16 @@
 <table>
   <th>ID</th>
   <th>Nome</th>
-  <th>Path</th>
   <th>Isolated</th>
+  <th>Mounted at:</th>
   <th>Ação</th>
   <% @engines.each do |engine| %>
-    <% $stdout.write "#{engine.inspect}\n" %>
-    <%# $stdout.write "\n@@@@@@@@@@@@@@@@@@ #{engine.engine_name}\n#{engine.app.routes.inspect}\n" %>
-    <%# $stdout.write "\n@@@@@@@@@@@@@@@@@@ \n#{Rails.application.routes.routes.inspect}\n" %>
     <tr>
       <td><%= engine.id %></td>
       <td><%= engine.name %></td>
-      <td><%= engine.path %></td>
       <td><%= engine.isolated? %></td>
-      <td><%= link_to "#" %></td>
+      <td><%= engine.mount_at %></td>
+      <td><%= link_to "mount!", mount_path(:name => engine.name, :at => engine.name) %></td>
     </tr>
   <% end %>
 </table>
