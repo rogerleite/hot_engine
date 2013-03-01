@@ -1,5 +1,44 @@
 module HotEngine
 
+  class Motor
+
+    attr_reader :engine_box, :at
+
+    # Public: Find a motor or build a new one if necessary.
+    #
+    # engine_box - EngineBox instance.
+    #
+    # Returns Motor instance from engine_box.
+    def self.find_or_build(engine_box)
+      return engine_box.motor if engine_box.motor.kind_of?(HotEngine::Motor)
+      motor = self.new(engine_box) # build a new one!
+      engine_box.motor = motor
+      motor
+    end
+
+    def initialize(engine_box)
+      @engine_box = engine_box
+      @mounted = false
+    end
+
+    def mounted?
+      @mounted
+    end
+
+    def on(at)
+      raise ArgumentError, "You need to specify at parameter" if at.nil? || at.empty?
+      raise ArgumentError, "Engine #{engine_box.name} already mounted" if self.mounted?
+
+      @at = at
+      @mounted = true
+    end
+
+    def off
+      raise ArgumentError, "Engine #{engine_box.name} not mounted" unless self.mounted?
+    end
+
+  end
+
   class Mechanic
 
     def initialize(app)
@@ -7,19 +46,28 @@ module HotEngine
       @mounted_engines = []
     end
 
-    def mounted?(engine_box)
-      !!@mounted_engines.detect { |e| e.id == engine_box.id}
-    end
-
+    # Public: Add a motor on engine_box and turn on!
+    #
+    # engine_box - EngineBox instance
+    # options - hash bag of options.
+    #   :at - route path to mount engine on routes
+    #
+    # returns engine_box with motor.
     def mount(engine_box, options = {})
-      raise ArgumentError, "Engine #{engine_box.name} already mounted" if mounted?(engine_box)
-
       mount_at = options[:at].to_s
-      raise ArgumentError, "You need to specify :at option" if mount_at.empty?
 
-      engine_box.mount_at = mount_at
+      motor = Motor.find_or_build(engine_box)
+      motor.on(mount_at)
+
       @mounted_engines << engine_box
       app_routes_redraw(@mounted_engines)
+
+      engine_box
+    end
+
+    def unmount(engine_box)
+      # remover do array
+      # redraw!
     end
 
     protected
@@ -30,9 +78,7 @@ module HotEngine
     #
     # returns nothing.
     def app_routes_redraw(engines)
-      #debugger
-      #puts "## app: #{@app.object_id}"
-      #puts "## engines: #{engines.inspect}"
+      #debugger # all we need is love!
 
       # clear all routes, and load all "config/routes.rb" again
       @app.routes_reloader.reload!

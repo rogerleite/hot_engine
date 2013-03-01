@@ -3,7 +3,7 @@ module HotEngine
   # Wrapper to Rails::Engine
   class EngineBox
 
-    attr_accessor :mount_at
+    attr_accessor :motor
 
     def initialize(rails_engine)
       @rails_engine = rails_engine
@@ -27,6 +27,10 @@ module HotEngine
 
     def isolated?
       _internal_engine.isolated?
+    end
+
+    def mount_at
+      self.motor.at if self.motor.respond_to?(:at)
     end
 
     def inspect
