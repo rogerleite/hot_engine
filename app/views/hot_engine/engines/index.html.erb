@@ -1,13 +1,11 @@
 <h1>hello</h1>
 
 <table>
-  <th>ID</th>
   <th>Nome</th>
   <th>Mounted at:</th>
   <th>Ação</th>
   <% @engines.each do |engine| %>
     <tr>
-      <td><%= engine.id %></td>
       <td><%= engine.name %></td>
       <td><%= link_to(engine.mount_at, engine.mount_at, :target => "_blank") if engine.mount_at %></td>
       <% if engine.isolated? %>
