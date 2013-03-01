@@ -26,15 +26,17 @@ module HotEngine
     end
 
     def on(at)
-      raise ArgumentError, "You need to specify at parameter" if at.nil? || at.empty?
-      raise ArgumentError, "Engine #{engine_box.name} already mounted" if self.mounted?
+      raise ArgumentError, "You need to specify at parameter. Example: 'hello_world'" if at.nil? || at.empty?
+      raise ArgumentError, "Engine #{engine_box.name} already turned on! :X" if self.mounted?
 
       @at = at
       @mounted = true
     end
 
     def off
-      raise ArgumentError, "Engine #{engine_box.name} not mounted" unless self.mounted?
+      raise ArgumentError, "Engine #{engine_box.name} not on! :X" unless self.mounted?
+      @at = nil
+      @mounted = false
     end
 
   end
@@ -66,8 +68,13 @@ module HotEngine
     end
 
     def unmount(engine_box)
-      # remover do array
-      # redraw!
+      motor = Motor.find_or_build(engine_box)
+      motor.off
+
+      @mounted_engines.delete(engine_box)
+      app_routes_redraw(@mounted_engines)
+
+      engine_box
     end
 
     protected
@@ -82,6 +89,7 @@ module HotEngine
 
       # clear all routes, and load all "config/routes.rb" again
       @app.routes_reloader.reload!
+      Rails.logger.info "[HOT] Restoring app routes!"
 
       begin # mount engines like magic
         @app.routes.disable_clear_and_finalize = true
