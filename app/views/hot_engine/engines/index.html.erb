@@ -12,7 +12,11 @@
       <td><%= engine.name %></td>
       <td><%= engine.isolated? %></td>
       <td><%= engine.mount_at %></td>
-      <td><%= link_to "mount!", mount_path(:name => engine.name, :at => engine.name) %></td>
+      <td>
+        <%= link_to "mount!", mount_path(:name => engine.name, :at => engine.name) %>
+        |
+        <%= link_to "unmount!", unmount_path(:name => engine.name) %>
+      </td>
     </tr>
   <% end %>
 </table>

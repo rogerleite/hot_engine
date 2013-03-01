@@ -9,10 +9,19 @@ module HotEngine
     end
 
     def mount
-      engine_box = HotEngine::Engineer.find_by_name(params[:name])
       HotEngine.mechanic.mount(engine_box, :at => params[:at].to_s)
-
       redirect_to "/engines"
+    end
+
+    def unmount
+      HotEngine.mechanic.unmount(engine_box)
+      redirect_to "/engines"
+    end
+
+    protected
+
+    def engine_box
+      @engine_box ||= HotEngine::Engineer.find_by_name(params[:name])
     end
 
   end
