@@ -1,0 +1,3 @@
+= HotEngine
+
+This project rocks and uses WTFPL-LICENSE.
