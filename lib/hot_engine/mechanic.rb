@@ -4,8 +4,7 @@ module HotEngine
 
   class Mechanic
 
-    def initialize(app)
-      @app = app
+    def initialize
       @mounted_engines = []
     end
 
@@ -50,30 +49,30 @@ module HotEngine
       #debugger # all we need is love!
 
       # clear all routes, and load all "config/routes.rb" again
-      @app.routes_reloader.reload!
+      app.routes_reloader.reload!
       Rails.logger.info "[HOT] Restoring app routes!"
 
       begin # mount engines like magic
-        @app.routes.disable_clear_and_finalize = true
-        @app.routes.draw do
+        app.routes.disable_clear_and_finalize = true
+        app.routes.draw do
           engines.each do |engine_box|
             Rails.logger.info "[HOT] Mounting #{engine_box.name} at: #{engine_box.mount_at.inspect}"
             mount engine_box._internal_engine, :at => engine_box.mount_at
           end
         end
       ensure
-        @app.routes.disable_clear_and_finalize = false
+        app.routes.disable_clear_and_finalize = false
       end
+    end
+
+    def app
+      Rails.application
     end
 
   end
 
-  def self.mechanic=(m)
-    @mechanic = m
-  end
-
   def self.mechanic
-    @mechanic
+    @mechanic ||= HotEngine::Mechanic.new
   end
 
 end
