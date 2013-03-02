@@ -1,4 +1,4 @@
-<h1>hello</h1>
+<h1>HotEngine</h1>
 
 <table>
   <th>Nome</th>
@@ -10,9 +10,11 @@
       <td><%= link_to(engine.mount_at, engine.mount_at, :target => "_blank") if engine.mount_at %></td>
       <% if engine.isolated? %>
         <td>
-          <%= link_to "mount", mount_path(:name => engine.name, :at => engine.name) %>
-          |
-          <%= link_to "unmount", unmount_path(:name => engine.name) %>
+          <% if engine.mount_at %>
+            <%= link_to "unmount", unmount_path(:name => engine.name) %>
+          <% else %>
+            <%= link_to "mount", mount_path(:name => engine.name, :at => engine.name) %>
+          <% end %>
         </td>
       <% else %>
         <td>Engine have to isolated to mount/unmount</td>
