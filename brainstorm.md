@@ -1,6 +1,7 @@
 # General
  * add some constraints, checks of existing routes
  * automount of isolated engines (provide hot mount on routes draw)
+ * support Rack Middlewares as mount point
 
 # Installing gem and loading in run time
 
