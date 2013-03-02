@@ -10,8 +10,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Roger Leite"]
   s.email       = ["roger.barreto@gmail.com"]
   s.homepage    = "https://github.com/rogerleite/hot_engine"
-  s.summary     = "A Rails engine to install, start or stop another engines on the fly"
-  s.description = "Hot Engine is a rails engine that allow to install another rails engine on the fly."
+  s.summary     = "A Rails engine to mount another engines on the fly"
+  s.description = "Hot Engine is a rails engine that dynamic mount another rails engine."
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["WTFPL-LICENSE", "Rakefile", "README.rdoc"]
   s.test_files = Dir["test/**/*"]
