@@ -57,6 +57,7 @@ module HotEngine
     # returns engine_box with motor.
     def mount(engine_box, options = {})
       mount_at = options[:at].to_s
+      mount_at = "/#{mount_at}" unless mount_at.starts_with?("/")
 
       motor = Motor.find_or_build(engine_box)
       motor.on(mount_at)
