@@ -1,14 +1,29 @@
+<!-- "Forked" version of Garuda's theme for GitHub Pages (http://idered.github.com/Garuda) -->
 <!DOCTYPE html>
-<html>
-<head>
-  <title>HotEngine</title>
-  <%# stylesheet_link_tag    "hot_engine/application", :media => "all" %>
-  <%# javascript_include_tag "hot_engine/application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
 
-<%= yield %>
+    <title>HotEngine | Hot swapping Rails engines!</title>
+    <meta name="description" content="Hot swapping Rails engines" />
 
-</body>
+    <link rel="stylesheet" href="ui/style.css">
+
+    <%= csrf_meta_tags %>
+    <%= render :partial => "style" %>
+  </head>
+  <body>
+
+    <div class="main wrapper">
+
+      <header class="page-head">
+        <h1 class="site-name"><a href="#">HotEngine</a></h1>
+        <h2 class="site-tagline">Hot swapping Rails engines!</h2>
+      </header>
+
+      <%= yield %>
+
+    </div>
+  </body>
 </html>
